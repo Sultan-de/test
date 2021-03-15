@@ -67,10 +67,24 @@ for filename in os.listdir(directory):
                             kod_form = child2.attrib.get('КодФорм')
                             naim_form = child2.attrib.get('НаимФорм')
                             print(kod_form, naim_form)
+                            cur.execute(f"SELECT * FROM form_pod where form_pod_code = \'{kod_form}\'")
+                                fetch = cur.fetchone()
+                                if fetch is None:
+                                    cur.execute(
+                                        f'insert into form_pod (form_pod_code, form_name) '
+                                        f'values({kod_form}, \'{naim_form}\')')
+                                    conn.commit()
                         elif child2.tag == 'ВидПод':
                             kod_vid = child2.attrib.get('КодВид')
                             naim_vid = child2.attrib.get('НаимВид')
                             print(kod_vid, naim_vid)
+                            cur.execute(f"SELECT * FROM vid_pod where vid_pod_code = \'{kod_vid}\'")
+                                fetch = cur.fetchone()
+                                if fetch is None:
+                                    cur.execute(
+                                        f'insert into vid_pod (vid_pod_code, vid_name) '
+                                        f'values({kod_vid}, \'{naim_vid}\')')
+                                    conn.commit()
                         elif child2.tag == 'РазмПод':
                             rasm_pod = child2.attrib.get('РазмПод')
                             ed_pod = child2.attrib.get('ЕдПод')
